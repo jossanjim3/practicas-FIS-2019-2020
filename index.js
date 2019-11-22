@@ -6,11 +6,6 @@ var BASE_API_PATH = "/api/v1";
 
 console.log("Starting API server...");
 
-var contacts = [ 
-    {"name" : "peter", "phone": 12345 }, 
-    {"name" : "john", "phone": 6789} 
-];
-
 var app = express();
 app.use(bodyParser.json());
 
@@ -18,11 +13,19 @@ app.get("/",(req, res) => {
     res.send("<html><body><h1>My server</h1></body></html>");
 });
 
+// creamos una variable temporal contacts con los contactos de prueba
+var contacts = [ 
+    {"name" : "peter", "phone": 12345 }, 
+    {"name" : "john", "phone": 6789} 
+];
+
+// metodo GET usando variable temporal
 app.get(BASE_API_PATH + "/contacts", (req, res) => {
     console.log(Date() + " - GET /contacts");
     res.send(contacts);
 })
 
+// metodo POST usando variable temporal
 app.post(BASE_API_PATH + "/contacts", (req, res) => {
     console.log(Date() + " - POST /contacts");
     var contact = req.body; //para que funcione esto tienes que añadir body-parser
