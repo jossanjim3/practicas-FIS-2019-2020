@@ -107,24 +107,8 @@ app.post(BASE_API_PATH + "/contacts", (req, res) => {
 });
 
 // metodo PUT usando variable temporal, actualiza registro y muestralo en consola
-app.put(BASE_API_PATH + "/contacts", (req, res) => {
-    console.log(Date() + " - GET /contacts");
-    // como el filtro el vacio {} devuelve todos los elementos de los contactos
-    db.find({}, (err) => {
-        if (err) {
-            console.log(Date() + " - " + err);
-            res.sendStatus(500);
-        } else {
-            
-            //res.send(contacts); // devuelve todos los campos de los contactos
-
-            // elimina el elemento _id de la lista de los contactos
-            res.send(contacts.map((contact) => {
-                delete contact._id;
-                return contact;
-            }));
-        }
-    });
+app.put({
+    
 });
 
 // metoto DELETE usando variable temporal que borra todo
