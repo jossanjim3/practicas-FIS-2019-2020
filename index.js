@@ -72,7 +72,14 @@ db.loadDatabase(function (err) {    // Callback is optional
 // metodo GET usando variable temporal
 app.get(BASE_API_PATH + "/contacts", (req, res) => {
     console.log(Date() + " - GET /contacts");
-    res.send([]);
+    db.find({}, (err) => {
+        if (err) {
+            console.log(Date() + " - " + err);
+            res.sendStatus(500);
+        } else {
+            res.sendStatus(201);
+        }
+    });
 });
 
 // metodo POST usando variable temporal
@@ -86,7 +93,6 @@ app.post(BASE_API_PATH + "/contacts", (req, res) => {
             console.log(Date() + " - " + err);
             res.sendStatus(500);
         } else {
-            console.log(record);
             res.sendStatus(201);
         }
     });    
