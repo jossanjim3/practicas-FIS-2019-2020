@@ -59,34 +59,43 @@ app.get(BASE_API_PATH + "/contacts/:id", (req, res) => {
 
 }); 
 
+
 // metodo POST usando variable temporal
 app.post(BASE_API_PATH + "/contacts", (req, res) => {
     console.log(Date() + " - POST /contacts");
+    console.log("req.body: " + req.body.name);
     var contact = req.body; //para que funcione esto tienes que añadir body-parser
     contacts.push(contact);
     res.sendStatus(201); // created
 });
 
+
 // metodo PUT usando variable temporal, actualiza registro y muestralo en consola
-app.put(BASE_API_PATH + "/contacts:id", (req, res) => {
+app.put(BASE_API_PATH + "/contacts/:id", (req, res) => {
     console.log(Date() + " - PUT /contacts");
-    // como el filtro el vacio {} devuelve todos los elementos de los contactos
-    db.find({}, (err) => {
-        if (err) {
-            console.log(Date() + " - " + err);
-            res.sendStatus(500);
-        } else {
-            res.sendStatus(201);
+    
+    var resId = req.params.id;
+    console.log("resId: " + resId);
+    
+    // observamos el nombre que le vamos a modificar
+    var contact = req.body; // el json lo hacemos como contacto
+    console.log("nombre nuevo: " + contact.name);
+    
+    // filtramos en la variable contacts por el id pasado por parametro
+    
+    //devuelve el indice donde se encuentra
+    contactFilter = contacts.filter(contactFilter => {
+        return contactFilter.id == resId;
+    })[0];
+    console.log("contactFilter: " + contactFilter);
 
-            //res.send(contacts); // devuelve todos los campos de los contactos
+    var index = contacts.indexOf(contactFilter);
+    console.log("index: " + index);
 
-            // elimina el elemento _id de la lista de los contactos
-            res.send(contacts.map((contact) => {
-                delete contact._id;
-                return contact;
-            }));
-        }
-    }); 
+    contactFilter.name = contact.name;
+    console.log("nombre despues de put: " + contactFilter.name);
+    
+    res.send(contactFilter);
 });
 
 // metoto DELETE usando variable temporal que borra todo
