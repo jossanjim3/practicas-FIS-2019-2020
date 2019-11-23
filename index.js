@@ -105,6 +105,20 @@ app.post(BASE_API_PATH + "/contacts", (req, res) => {
         }
     });    
 });
+<<<<<<< HEAD
+=======
+
+// metodo PUT usando variable temporal, actualiza registro y muestralo en consola
+app.put({
+    
+});
+
+// metoto DELETE usando variable temporal que borra todo
+app.delete({
+
+});
+
+>>>>>>> CRUD-contacts
 
 app.listen(port);
 
