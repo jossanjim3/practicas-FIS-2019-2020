@@ -10,22 +10,28 @@ console.log("Starting API server...");
 var app = express();
 app.use(bodyParser.json());
 
-// metodo root
+/*
+NOTA: cuando arranques el docker y hagas npm start tienes que hacer lo de F1 y la opcion Remote Containers - Forward port to container...
+*/
+
+ // creamos una variable temporal contacts con los contactos de prueba
+var contacts = [ 
+    {"id": 1, "name" : "peter", "phone": 12345, "enable": 0}, 
+    {"id": 2, "name" : "john",  "phone": 54321, "enable": 0} 
+];
+
+//var contacts = [];
+
+// metodo get ROOT
+// url -> http://localhost:3000/api/v1/contacts
 app.get("/",(req, res) => {
     console.log(" - ROOT");
     res.send("<html><body><h1>My server is running... JD</h1></body></html>");
 
 });
 
- // creamos una variable temporal contacts con los contactos de prueba
-var contacts = [ 
-    {"id": 1, "name" : "peter", "phone": 12345 }, 
-    {"id": 2, "name" : "john", "phone": 6789} 
-];
-
-//var contacts = [];
-
 // metodo GET usando variable temporal
+// url -> http://localhost:3000/api/v1/contacts
 app.get(BASE_API_PATH + "/contacts", (req, res) => {
     console.log(Date() + " - GET /contacts");
     console.log("contacts length: " + contacts.length);
@@ -42,6 +48,7 @@ app.get(BASE_API_PATH + "/contacts", (req, res) => {
 }); 
 
 // metodo GET filtrado usando variable temporal
+// url -> http://localhost:3000/api/v1/contacts/2
 app.get(BASE_API_PATH + "/contacts/:id", (req, res) => {
     console.log(Date() + " - GET /contacts:id");
 
@@ -61,6 +68,8 @@ app.get(BASE_API_PATH + "/contacts/:id", (req, res) => {
 
 
 // metodo POST usando variable temporal
+// url -> http://localhost:3000/api/v1/contacts
+// body -> {"id": "3", "name" : "jd", "phone": 789562314 }
 app.post(BASE_API_PATH + "/contacts", (req, res) => {
     console.log(Date() + " - POST /contacts");
     console.log("req.body: " + req.body.name);
@@ -71,6 +80,8 @@ app.post(BASE_API_PATH + "/contacts", (req, res) => {
 
 
 // metodo PUT usando variable temporal, actualiza registro y muestralo en consola
+// url -> http://localhost:3000/api/v1/contacts/2
+// body -> {"id": "3", "name" : "jd", "phone": 789562314 }
 app.put(BASE_API_PATH + "/contacts/:id", (req, res) => {
     console.log(Date() + " - PUT /contacts");
     
@@ -96,6 +107,15 @@ app.put(BASE_API_PATH + "/contacts/:id", (req, res) => {
     console.log("nombre despues de put: " + contactFilter.name);
     
     res.send(contactFilter);
+});
+
+// hacer metodo put que modifique la variable enable de todos los contactos todos a 2
+// url -> http://localhost:3000/api/v1/contacts/enable_active
+app.put(BASE_API_PATH + "/contacts/enable_active", (req, res) => {
+    console.log(Date() + " - PUT /contacts/enable_active");
+    
+    res.json({message: "hacer enable = 0"});
+    
 });
 
 // metoto DELETE usando variable temporal que borra todo
