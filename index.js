@@ -1,6 +1,7 @@
 var express = require('express');
-var bodyParser = require('body-parser');
+var bodyParser = require('body-parser'); //req.body
 
+var hostname = 'localhost';
 var port = 3000;
 var BASE_API_PATH = "/api/v1";
 
@@ -19,6 +20,8 @@ var contacts = [
     {"id": 1, "name" : "peter", "phone": 12345, "enable": 0}, 
     {"id": 2, "name" : "john",  "phone": 54321, "enable": 0} 
 ];
+
+//contacts = require('./data')
 
 //var contacts = [];
 
@@ -111,9 +114,57 @@ app.put(BASE_API_PATH + "/contacts/:id", (req, res) => {
 
 // hacer metodo put que modifique la variable enable de todos los contactos todos a 2
 // url -> http://localhost:3000/api/v1/contacts/enable_active
-app.put(BASE_API_PATH + "/contacts/enable_active", (req, res) => {
-    console.log(Date() + " - PUT /contacts/enable_active");
+app.put(BASE_API_PATH + "/contacts_enable", (req, res) => {
+    console.log(Date() + " - PUT /contacts_enable -> hacer enable = 0");
     
+    console.log("contacts length: " + contacts.length);
+    
+    // for each 1
+    console.log("----------  for each 1 ---------- ");
+    contacts.forEach(function(valor, indice,array){
+        console.log(`En el indice ${indice} hay este valor Id: ${valor.id} y valor name: ${valor.name} `);
+    });
+
+    // for each 2
+    console.log("---------- for each 2 ---------- ");
+    // ES6
+    Object.keys(contacts).forEach(key => console.log(key, contacts[key]));
+     
+    // ES5
+    Object.keys(contacts).forEach(function(key) {
+        console.log(key, contacts[key].id);
+        console.log(key, contacts[key].name);
+    })    
+
+    // for each 3
+    console.log("---------- for each 3 ---------- ");
+    for (var i = 0; i < contacts.length; i+=1) {
+        console.log("En el índice '" + i + "' hay este valor: " + contacts[i].name);
+    }
+
+    // for each 4
+    console.log("---------- for each 4 ---------- ");
+    //var miArray = [ 2, 4, 6, 8, 10 ];
+    for (var contact in contacts) {
+    console.log("En el índice '" + contact + "' hay este valor: " + contacts[contact].name);
+    }
+     
+    // for each 5
+    console.log("---------- for each 5 ---------- ");
+    //var miObjeto = { "marca":"audi", "edad":2 };
+    for (var contact in contacts) {
+        if (contacts.hasOwnProperty(contact)) {
+            console.log("En la propiedad '" + contact + "' hay este valor: " + contacts[contact].name);
+        }
+    }
+
+    // for each 6
+    console.log("---------- for each 6 ---------- ");
+    //var miArray = [ 2, 4, 6, "hola", "mundo" ];
+    for (var contact of contacts) {
+        console.log("Contact: " + contact.name);
+    }
+
     res.json({message: "hacer enable = 0"});
     
 });
@@ -123,6 +174,9 @@ app.delete({
 
 });
 
-app.listen(port);
+// app.listen(port);
+// console.log("Server ready");
 
-console.log("Server ready");
+app.listen(port, hostname, () => {
+    console.log(`Server ready is running at http://${hostname}:${port}`);
+});
