@@ -10,13 +10,13 @@ var app = express();
 app.use(bodyParser.json());
 
 app.get("/",(req, res) => {
-    res.send("<html><body><h1>My server</h1></body></html>");
+    res.send("<html><body><h1>My server in docker local JD</h1></body></html>");
 });
 
 // creamos una variable temporal contacts con los contactos de prueba
 var contacts = [ 
-    {"name" : "peter", "phone": 12345 }, 
-    {"name" : "john", "phone": 6789} 
+    {"id": 1, "name" : "peter", "phone": 12345 }, 
+    {"id": 2, "name" : "john", "phone": 6789} 
 ];
 
 // metodo GET usando variable temporal
