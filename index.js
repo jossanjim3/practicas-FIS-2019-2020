@@ -17,9 +17,14 @@ NOTA: cuando arranques el docker y hagas npm start tienes que hacer lo de F1 y l
 
  // creamos una variable temporal contacts con los contactos de prueba
 var contacts = [ 
-    {"id": 1, "name" : "peter", "phone": 12345, "enable": 0}, 
-    {"id": 2, "name" : "john",  "phone": 54321, "enable": 0} 
+    {"id": 1, "name" : "peter", "phone": 12345, "activo": 1, "enable": 0}, 
+    {"id": 2, "name" : "john",  "phone": 54321, "activo": 0, "enable": 0}, 
+    {"id": 3, "name" : "esther",  "phone": 45678, "activo": 1, "enable": 0},
+    {"id": 4, "name" : "maria",  "phone": 56434, "activo": 0, "enable": 0},
+    {"id": 5, "name" : "paco",  "phone": 67687, "activo": 0, "enable": 0} 
 ];
+console.log("Contacts: ");
+console.log(contacts);
 
 //contacts = require('./data')
 
@@ -113,7 +118,7 @@ app.put(BASE_API_PATH + "/contacts/:id", (req, res) => {
 });
 
 // hacer metodo put que modifique la variable enable de todos los contactos todos a 2
-// url -> http://localhost:3000/api/v1/contacts/enable_active
+// url -> http://localhost:3000/api/v1/contacts_enable
 app.put(BASE_API_PATH + "/contacts_enable", (req, res) => {
     console.log(Date() + " - PUT /contacts_enable -> hacer enable = 0");
     
@@ -165,7 +170,19 @@ app.put(BASE_API_PATH + "/contacts_enable", (req, res) => {
         console.log("Contact: " + contact.name);
     }
 
-    res.json({message: "hacer enable = 0"});
+    // modificar la variable enable a 1 de aquellos que tienen valor activo = 1 y mostrar el resultado
+    console.log("---------- ENABLE A 1 ---------- ");
+    //var miObjeto = { "marca":"audi", "edad":2 };
+    for (var contact in contacts) {
+        if (contacts.hasOwnProperty(contact)) {
+            //console.log("En la propiedad '" + contact + "' hay este valor: " + contacts[contact].name);
+            var activo = contacts[contact].activo;
+            if(activo == 1){
+                contacts[contact].enable = 1;
+            }
+        }
+    }
+    res.send(contacts);
     
 });
 
