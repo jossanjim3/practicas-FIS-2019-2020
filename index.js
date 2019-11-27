@@ -42,15 +42,15 @@ app.get("/",(req, res) => {
 app.get(BASE_API_PATH + "/contacts", (req, res) => {
     console.log(Date() + " - GET /contacts");
     // como el filtro el vacio {} devuelve todos los elementos de los contactos
-    db.find({}, (err) => {
+    db.find({}, (err, contacts) => {
         if (err) {
             console.log(Date() + " - " + err);
             res.sendStatus(500);
         } else {
             
-            //res.send(contacts); // devuelve todos los campos de los contactos
+            //res.send(contacts); // devuelve todos los campos de los contactos, incluido el _id
 
-            // elimina el elemento _id de la lista de los contactos
+            // elimina el elemento _id de la lista de los contactos que no queremos que aparezca
             res.send(contacts.map((contact) => {
                 delete contact._id;
                 return contact;
@@ -59,7 +59,7 @@ app.get(BASE_API_PATH + "/contacts", (req, res) => {
     });
 });
 
-// metodo POST usando variable temporal
+// metodo POST usando nedb
 app.post(BASE_API_PATH + "/contacts", (req, res) => {
     console.log(Date() + " - POST /contacts");
     var contact = req.body; //para que funcione esto tienes que añadir body-parser
