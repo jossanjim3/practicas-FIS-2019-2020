@@ -187,7 +187,26 @@ app.put(BASE_API_PATH + "/contacts_enable", (req, res) => {
 });
 
 // metoto DELETE usando variable temporal que borra todo
-app.delete({
+// url -> http://localhost:3000/api/v1/contacts/2
+app.delete(BASE_API_PATH + "/contacts/:id", (req, res) => {
+
+    var reqId = req.params.id;
+    console.log("vamos a borrar el id: " + reqId);
+
+    //devuelve el indice donde se encuentra
+    contactFilter = contacts.filter(contactFilter => {
+        return contactFilter.id == reqId;
+    })[0];
+    console.log("contactFilter: " + contactFilter.id +" - "+ contactFilter.name);
+
+    var index = contacts.indexOf(contactFilter);
+    console.log("index: " + index);
+
+    // haz el delete
+    contacts.splice(index,1);
+    console.log(contacts);
+
+    res.send(contacts);
 
 });
 
