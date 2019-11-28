@@ -9,7 +9,8 @@ Es un problema de node, nedb no funciona en un container remoto en windows con n
 He hablado de este problema con Manuel y me dijo de trabajar fuera del container mientras que utilizamos nedb
 */
 
-var port = 3000;
+// var port = 3000; // esto para trabajar en localhost esta bien pero para desplegar en heroku no
+var port = (process.env.PORT || 3000); // leemos de la variable de entorno port, y si no hay valor elegimos 3000 por defecto.
 var BASE_API_PATH = "/api/v1";
 // variable que indica la ruta donde se almacenaran los datos en fichero
 var DB_FILE_NAME = __dirname + "/contacts.json";
