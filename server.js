@@ -1,7 +1,7 @@
-const db = require('./db.js');
-
 var express = require('express');
 var bodyParser = require('body-parser');
+
+const Contact = require('./contacts');
 
 var BASE_API_PATH = "/api/v1";
 
@@ -19,7 +19,7 @@ app.get("/",(req, res) => {
 app.get(BASE_API_PATH + "/contacts", (req, res) => {
     console.log(Date() + " - GET /contacts");
     // como el filtro el vacio {} devuelve todos los elementos de los contactos
-    db.find({}, (err, contacts) => {
+    Contact.find({}, (err, contacts) => {
         if (err) {
             console.log(Date() + " - " + err);
             res.sendStatus(500);
@@ -29,8 +29,7 @@ app.get(BASE_API_PATH + "/contacts", (req, res) => {
 
             // elimina el elemento _id de la lista de los contactos que no queremos que aparezca
             res.send(contacts.map((contact) => {
-                delete contact._id;
-                return contact;
+                return contact.cleanup();
             }));
         }
     });
@@ -42,7 +41,7 @@ app.post(BASE_API_PATH + "/contacts", (req, res) => {
     var contact = req.body; //para que funcione esto tienes que añadir body-parser
     //console.log(" - req.body => contact: " + contact);
 
-    db.insert(contact, function(err, record) {
+    Contact.create(contact, function(err, record) {
         if (err) {
             console.log(Date() + " - " + err);
             res.sendStatus(500);
