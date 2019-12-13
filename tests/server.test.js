@@ -1,6 +1,6 @@
 
 const app = require('../server.js');
-const db = require('../db.js');
+const Contact = require('../contacts.js');
 const request = require('supertest');
 
 describe ("Hello World Texts", () => {
@@ -30,12 +30,13 @@ describe("Contacts API", () => {
         
         // parte arrange
         beforeAll(() => {
+
             const contacts = [
-                {name : "juan", phone: 5555},
-                {name : "pepe", phone: 6666}
+                new Contact({name : "juan", phone: 5555}),
+                new Contact({name : "pepe", phone: 6666})
             ];
 
-            dbFind = jest.spyOn(db, "find");
+            dbFind = jest.spyOn(Contact, "find");
             dbFind.mockImplementation((query,callback) => {
                 callback(null, contacts);
             });
@@ -55,7 +56,7 @@ describe("Contacts API", () => {
         let dbInsert;
 
         beforeEach(() => {
-            dbInsert = jest.spyOn(db, "insert");
+            dbInsert = jest.spyOn(Contact, "create");
         });
         
         // esta prueba me da fallo
@@ -69,7 +70,7 @@ describe("Contacts API", () => {
                 expect(dbInsert).toBeCalledWith(contact, expect.any(Function));
 
             });
-        }); */
+        });  */
 
         it ("Should return 500 if there is a problem...", () => {
             dbInsert.mockImplementation((c,callback) => {
